@@ -6,12 +6,14 @@ import Link from "@/components/Link";
 const Header = () => {
   const {
     basePath,
-    i18n: { locales },
+    i18n: { locales, defaultLocale },
   } = websiteConf;
   const locale = useSelector((state: any) => state.app.locale);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    window.location.href = `${window.location.origin}/${e.target.value}${basePath}`;
+    const prefix: string =
+      e.target.value === defaultLocale ? "" : e.target.value;
+    window.location.href = `${window.location.origin}/${prefix}${basePath}`;
   };
 
   return (
