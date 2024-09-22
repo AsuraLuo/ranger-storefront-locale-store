@@ -1,6 +1,19 @@
+import { useSelector } from "react-redux";
+
+import { websiteConf } from "@/config/website.conf";
 import Link from "@/components/Link";
 
 const Header = () => {
+  const {
+    basePath,
+    i18n: { locales },
+  } = websiteConf;
+  const locale = useSelector((state: any) => state.app.locale);
+
+  const handleOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    window.location.href = `${window.location.origin}/${e.target.value}${basePath}`;
+  };
+
   return (
     <header>
       <div
@@ -42,6 +55,31 @@ const Header = () => {
           <Link href="/register">
             <span>Register Page</span>
           </Link>
+        </div>
+        <div
+          style={{
+            display: "grid",
+            gridAutoFlow: "column",
+            gridColumnGap: "10px",
+            alignItems: "center",
+          }}
+        >
+          <span>Toggle Store:</span>
+          {locales.length > 0 && (
+            <select
+              style={{ padding: "5px" }}
+              value={locale}
+              onChange={handleOnChange}
+            >
+              {locales.map((locale: string) => {
+                return (
+                  <option key={locale} value={locale}>
+                    {locale}
+                  </option>
+                );
+              })}
+            </select>
+          )}
         </div>
       </div>
     </header>
