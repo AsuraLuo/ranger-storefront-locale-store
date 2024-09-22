@@ -1,6 +1,8 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { createLogger } from "redux-logger";
 
+declare const window: any;
+
 type StoreType = {
   reduxState?: any;
   reducer: any;
@@ -22,10 +24,8 @@ const initializeStore = ({ reduxState, reducer }: StoreType) => {
     reducer: combineReducers(reducer),
     devTools: !isProd,
     preloadedState: reduxState,
-    middleware: (getDefaultMiddleware) => [
-      ...getDefaultMiddleware(),
-      ...middleware,
-    ],
+    middleware: (getDefaultMiddleware) =>
+      [...getDefaultMiddleware(), ...middleware] as any,
   });
 };
 
