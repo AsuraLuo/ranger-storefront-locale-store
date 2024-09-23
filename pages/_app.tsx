@@ -1,7 +1,7 @@
 import "@/styles/globals.css";
 import { Provider as StoreProvider } from "react-redux";
 import { isEmpty } from "lodash-es";
-import type { AppProps as NextAppProps } from "next/app";
+import type { AppProps, AppContext } from "next/app";
 
 import { websiteConf } from "@/config/website.conf";
 import { withRedux } from "@/provider/StoreProvider";
@@ -11,12 +11,12 @@ import PathProvider from "@/provider/PathProvider";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-interface AppProps extends NextAppProps {
+interface PageProps extends AppProps {
   locale: string;
   reduxStore?: any;
 }
 
-const App = ({ Component, pageProps, locale, reduxStore }: AppProps) => {
+const App = ({ Component, pageProps, locale, reduxStore }: PageProps) => {
   return (
     <StoreProvider store={reduxStore}>
       <PathProvider basePath={websiteConf.basePath} locale={locale}>
@@ -37,7 +37,13 @@ const App = ({ Component, pageProps, locale, reduxStore }: AppProps) => {
   );
 };
 
-App.getInitialProps = async ({ Component, ctx }: any) => {
+interface PageContext extends Omit<AppContext, "ctx"> {
+  ctx: AppContext["ctx"] & {
+    reduxStore: any;
+  };
+}
+
+App.getInitialProps = async ({ Component, ctx }: PageContext) => {
   const { req, reduxStore } = ctx;
   const { dispatch, getState } = reduxStore;
   const state = getState();
@@ -45,7 +51,8 @@ App.getInitialProps = async ({ Component, ctx }: any) => {
 
   if (isEmpty(state.app.locale)) {
     const locale: string =
-      req?.headers?.[websiteConf.cookie.key] ?? websiteConf.i18n.defaultLocale;
+      (req?.headers?.[websiteConf.cookie.key] as string) ??
+      websiteConf.i18n.defaultLocale;
     props.locale = locale;
 
     await dispatch(

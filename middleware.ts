@@ -30,7 +30,11 @@ export const middleware: NextMiddleware = (request: NextRequest) => {
 
     const rewriteReponse = NextResponse.rewrite(url);
     rewriteReponse.headers.set(cookie.key, store);
-    rewriteReponse.cookies.set(cookie.key, store, cookie.options);
+    // Set cookie sub path
+    rewriteReponse.cookies.set(cookie.key, store, {
+      ...cookie.options,
+      path: matchStore,
+    });
     return rewriteReponse;
   }
 

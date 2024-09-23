@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 
+import { useRouter } from "@/hooks/Router";
 import { websiteConf } from "@/config/website.conf";
 import Link from "@/components/Link";
 
@@ -8,12 +9,23 @@ const Header = () => {
     basePath,
     i18n: { locales, defaultLocale },
   } = websiteConf;
+  const router = useRouter();
   const locale = useSelector((state: any) => state.app.locale);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const prefix: string =
       e.target.value === defaultLocale ? "" : e.target.value;
     window.location.href = `${window.location.origin}/${prefix}${basePath}`;
+  };
+
+  const handleOnClick = () => {
+    router.push("/login");
+  };
+
+  const handleOnDynamic = () => {
+    router.push({
+      href: "/checkout",
+    });
   };
 
   return (
@@ -57,6 +69,9 @@ const Header = () => {
           <Link href="/register">
             <span>Register Page</span>
           </Link>
+          <Link href="/test-product?id=308467">
+            <span>Product Page</span>
+          </Link>
         </div>
         <div
           style={{
@@ -66,6 +81,8 @@ const Header = () => {
             alignItems: "center",
           }}
         >
+          <button onClick={handleOnClick}>Jump Resolver</button>
+          <button onClick={handleOnDynamic}>Dynamic Resolver</button>
           <span>Toggle Store:</span>
           {locales.length > 0 && (
             <select
