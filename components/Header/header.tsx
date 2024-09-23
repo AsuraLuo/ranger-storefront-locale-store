@@ -24,7 +24,7 @@ const Header = () => {
 
   const handleOnDynamic = () => {
     router.push({
-      href: "/checkout",
+      pathname: "/checkout",
     });
   };
 
