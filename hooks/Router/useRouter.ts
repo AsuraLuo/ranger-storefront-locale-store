@@ -1,7 +1,7 @@
 import { NextRouter, useRouter as useNextRouter } from "next/router";
 import type { UrlObject } from "url";
 
-import { websiteConf } from "@/config/website.conf";
+import { domainConf } from "@/config/domain.conf";
 import { usePathContext } from "@/provider/PathProvider";
 
 type Url = UrlObject | string;
@@ -17,7 +17,7 @@ export const useRouter = (): NextRouter => {
   const router = useNextRouter();
   const {
     i18n: { defaultLocale, locales },
-  } = websiteConf;
+  } = domainConf;
   const { basePath = "", locale } = usePathContext();
   const prefix: string = locale === defaultLocale ? "" : `/${locale}`;
   const isSlash: boolean = router.pathname === "/";

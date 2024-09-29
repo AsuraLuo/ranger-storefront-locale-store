@@ -1,14 +1,14 @@
 import { NextResponse } from "next/server";
 import type { NextRequest, NextMiddleware } from "next/server";
 
-import { websiteConf } from "@/config/website.conf";
+import { domainConf } from "@/config/domain.conf";
 
 export const middleware: NextMiddleware = (request: NextRequest) => {
   const {
     basePath,
     i18n: { locales, defaultLocale },
     cookie,
-  } = websiteConf;
+  } = domainConf;
   const { pathname } = request.nextUrl;
   const url = request.nextUrl.clone();
 

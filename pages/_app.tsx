@@ -3,7 +3,7 @@ import { Provider as StoreProvider } from "react-redux";
 import { isEmpty } from "lodash-es";
 import type { AppProps, AppContext } from "next/app";
 
-import { websiteConf } from "@/config/website.conf";
+import { domainConf } from "@/config/domain.conf";
 import { withRedux } from "@/provider/StoreProvider";
 import { rootReducer } from "@/store";
 import { actions as appActions } from "@/store/app";
@@ -19,7 +19,7 @@ interface PageProps extends AppProps {
 const App = ({ Component, pageProps, locale, reduxStore }: PageProps) => {
   return (
     <StoreProvider store={reduxStore}>
-      <PathProvider basePath={websiteConf.basePath} locale={locale}>
+      <PathProvider basePath={domainConf.basePath} locale={locale}>
         <Header />
         <main
           style={{
@@ -51,8 +51,8 @@ App.getInitialProps = async ({ Component, ctx }: PageContext) => {
 
   if (isEmpty(state.app.locale)) {
     const locale: string =
-      (req?.headers?.[websiteConf.cookie.key] as string) ??
-      websiteConf.i18n.defaultLocale;
+      (req?.headers?.[domainConf.cookie.key] as string) ??
+      domainConf.i18n.defaultLocale;
     props.locale = locale;
 
     await dispatch(

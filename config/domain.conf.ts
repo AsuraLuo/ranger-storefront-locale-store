@@ -1,6 +1,6 @@
 import type { CookieSerializeOptions } from "@/interface/cookie";
 
-type WebsiteConf = {
+type DomainConf = {
   basePath: string;
   i18n: {
     locales: string[];
@@ -12,7 +12,7 @@ type WebsiteConf = {
   };
 };
 
-export const websiteConf: WebsiteConf = {
+export const domainConf: DomainConf = {
   basePath: "/store",
   i18n: {
     locales: ["au", "at", "ca", "de", "en", "es", "fr", "it", "jp", "kr", "th"],

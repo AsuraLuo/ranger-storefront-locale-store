@@ -1,7 +1,7 @@
 import NextLink from "next/link";
 import type { LinkProps } from "next/link";
 
-import { websiteConf } from "@/config/website.conf";
+import { domainConf } from "@/config/domain.conf";
 import { usePathContext } from "@/provider/PathProvider";
 
 const Link: React.FC<LinkProps & { children: React.ReactNode }> = ({
@@ -12,7 +12,7 @@ const Link: React.FC<LinkProps & { children: React.ReactNode }> = ({
 }) => {
   const { basePath, locale = "" } = usePathContext();
   const prefix: string =
-    locale === websiteConf.i18n.defaultLocale ? "" : `/${locale}`;
+    locale === domainConf.i18n.defaultLocale ? "" : `/${locale}`;
 
   return (
     <NextLink

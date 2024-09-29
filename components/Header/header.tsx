@@ -1,14 +1,14 @@
 import { useSelector } from "react-redux";
 
 import { useRouter } from "@/hooks/Router";
-import { websiteConf } from "@/config/website.conf";
+import { domainConf } from "@/config/domain.conf";
 import Link from "@/components/Link";
 
 const Header = () => {
   const {
     basePath,
     i18n: { locales, defaultLocale },
-  } = websiteConf;
+  } = domainConf;
   const router = useRouter();
   const locale = useSelector((state: any) => state.app.locale);
 
