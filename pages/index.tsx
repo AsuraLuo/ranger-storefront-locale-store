@@ -1,6 +1,8 @@
 import Head from "next/head";
-import Image from "next/image";
-import styles from "@/styles/Home.module.css";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
 
 export default function Home() {
   return (
@@ -11,25 +13,16 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className={`${styles.page}`}>
-        <main className={styles.main}>
-          <h1 className={styles.title}>Welcome to Olight Store</h1>
-          <Image
-            className={styles.logo}
-            src="https://nextjs.org/icons/next.svg"
-            alt="Next.js logo"
-            width={180}
-            height={38}
-            priority
-          />
-          <ol>
-            <li>
-              Get started by editing <code>pages/index.tsx</code>.
-            </li>
-            <li>Save and see your changes instantly.</li>
-          </ol>
-        </main>
-      </div>
+      <Container maxWidth="sm">
+        <Box sx={{ my: 4 }}>
+          <Typography variant="h4" component="h1" sx={{ mb: 2 }}>
+            Welcome to Online Store
+          </Typography>
+          <Button variant="contained">
+            <span>Mui Button</span>
+          </Button>
+        </Box>
+      </Container>
     </>
   );
 }

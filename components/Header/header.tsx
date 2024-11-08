@@ -19,7 +19,8 @@ const Header = () => {
   };
 
   const handleOnClick = () => {
-    router.push("/login");
+    // router.push("/login");
+    router.push("/login", undefined, { shallow: true });
   };
 
   const handleOnDynamic = () => {

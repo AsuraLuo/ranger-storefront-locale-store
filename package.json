@@ -9,6 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/cache": "^11.13.1",
+    "@emotion/react": "^11.13.3",
+    "@emotion/server": "^11.11.0",
+    "@emotion/styled": "^11.13.0",
+    "@mui/material": "^6.1.6",
+    "@mui/material-nextjs": "^6.1.6",
     "@reduxjs/toolkit": "^2.2.7",
     "lodash-es": "^4.17.21",
     "next": "14.2.13",

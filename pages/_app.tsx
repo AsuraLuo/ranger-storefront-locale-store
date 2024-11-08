@@ -1,4 +1,3 @@
-import "@/styles/globals.css";
 import { Provider as StoreProvider } from "react-redux";
 import { isEmpty } from "lodash-es";
 import type { AppProps, AppContext } from "next/app";
@@ -8,6 +7,11 @@ import { withRedux } from "@/provider/StoreProvider";
 import { rootReducer } from "@/store";
 import { actions as appActions } from "@/store/app";
 import PathProvider from "@/provider/PathProvider";
+import EmotionRegistry from "@/lib/emotion/registry";
+import { cache } from "@/config/cache";
+import { emotionTheme } from "@/config/emotion";
+import { muiTheme } from "@/config/mui";
+import GlobalStyled from "@/components/GlobalStyled";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -20,18 +24,25 @@ const App = ({ Component, pageProps, locale, reduxStore }: PageProps) => {
   return (
     <StoreProvider store={reduxStore}>
       <PathProvider basePath={domainConf.basePath} locale={locale}>
-        <Header />
-        <main
-          style={{
-            maxWidth: "1280px",
-            minHeight: "80dvh",
-            margin: "0 auto",
-            padding: "20px",
-          }}
+        <EmotionRegistry
+          cacheOptions={cache}
+          muiTheme={muiTheme}
+          emotionTheme={emotionTheme}
         >
-          <Component {...pageProps} />
-        </main>
-        <Footer />
+          <GlobalStyled />
+          <Header />
+          <main
+            style={{
+              maxWidth: "1280px",
+              minHeight: "80dvh",
+              margin: "0 auto",
+              padding: "20px",
+            }}
+          >
+            <Component {...pageProps} />
+          </main>
+          <Footer />
+        </EmotionRegistry>
       </PathProvider>
     </StoreProvider>
   );
