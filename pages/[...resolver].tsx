@@ -16,6 +16,8 @@ const Resolver: NextPage<ResolverProps> = ({ query }) => {
 Resolver.getInitialProps = async (context: NextPageContext) => {
   const { query } = context;
 
+  delete query?.resolver;
+
   return {
     query,
   };

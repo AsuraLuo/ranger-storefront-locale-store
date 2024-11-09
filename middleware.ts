@@ -26,8 +26,14 @@ export const middleware: NextMiddleware = (request: NextRequest) => {
   if (matchStore) {
     const locale: string = matchStore.replace(basePath, "");
     const store: string = locale.replace("/", "") || defaultLocale;
+    const resolverParam = url.searchParams.get("resolver");
     url.pathname = pathname.replace(matchStore, "");
 
+    if (resolverParam) {
+      url.searchParams.delete("resolver");
+    }
+
+    // console.info(url);
     const rewriteReponse = NextResponse.rewrite(url);
     rewriteReponse.headers.set(cookie.key, store);
     // Set cookie sub path

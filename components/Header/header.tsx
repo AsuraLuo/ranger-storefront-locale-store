@@ -19,7 +19,6 @@ const Header = () => {
   };
 
   const handleOnClick = () => {
-    // router.push("/login");
     router.push("/login", undefined, { shallow: true });
   };
 
@@ -82,8 +81,8 @@ const Header = () => {
             alignItems: "center",
           }}
         >
-          <button onClick={handleOnClick}>Jump Resolver</button>
-          <button onClick={handleOnDynamic}>Dynamic Resolver</button>
+          <button onClick={handleOnClick}>Jump Login</button>
+          <button onClick={handleOnDynamic}>Dynamic Checkout</button>
           <span>Toggle Store:</span>
           {locales.length > 0 && (
             <select
