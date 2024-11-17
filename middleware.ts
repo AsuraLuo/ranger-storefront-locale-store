@@ -23,38 +23,72 @@ export const middleware: NextMiddleware = (request: NextRequest) => {
   });
 
   // Match store rewrite store url
+  console.info("matchStore:", matchStore);
   if (matchStore) {
     const locale: string = matchStore.replace(basePath, "");
     const store: string = locale.replace("/", "") || defaultLocale;
-    const resolverParam = url.searchParams.get("resolver");
-    url.pathname = pathname.replace(matchStore, "");
 
-    if (resolverParam) {
-      url.searchParams.delete("resolver");
+    // match store page
+    if (pathname == matchStore) {
+      url.pathname = pathname.replace(`/${store}`, "");
+      const rewriteReponse = NextResponse.rewrite(url);
+      rewriteReponse.headers.set(cookie.key, store);
+      rewriteReponse.cookies.set(cookie.key, store, {
+        ...cookie.options,
+      });
+      return rewriteReponse;
+    } else {
+      // match other page
+      const isStore: boolean = pathname === `${matchStore}/store`;
+
+      if (!isStore) {
+        const resolverParam = url.searchParams.get("resolver");
+        url.pathname = pathname.replace(matchStore, "");
+
+        if (resolverParam) {
+          url.searchParams.delete("resolver");
+        }
+
+        const rewriteReponse = NextResponse.rewrite(url);
+        rewriteReponse.headers.set(cookie.key, store);
+        rewriteReponse.cookies.set(cookie.key, store, {
+          ...cookie.options,
+        });
+        return rewriteReponse;
+      }
     }
-
-    // console.info(url);
-    const rewriteReponse = NextResponse.rewrite(url);
-    rewriteReponse.headers.set(cookie.key, store);
-    // Set cookie sub path
-    rewriteReponse.cookies.set(cookie.key, store, {
-      ...cookie.options,
-      path: matchStore,
-    });
-    return rewriteReponse;
   }
 
   const exsitStore: string = request.headers.get(cookie.key) || "";
-  const isHomePage: boolean = pathname === "/";
+  const isDefaultPage: boolean = pathname === "/";
+  const matchHome: string | undefined = locales.find((locale: string) => {
+    return `/${locale}` === pathname;
+  });
 
   // No match store redirect default store url
-  if (!pathname.startsWith(basePath) && !exsitStore) {
-    url.pathname = url.pathname.replace(
-      "/",
-      isHomePage ? basePath : `${basePath}/`
-    );
-    const redirectResponse = NextResponse.redirect(url);
-    return redirectResponse;
+  console.info(pathname, matchHome);
+
+  if (!exsitStore) {
+    if (isDefaultPage) {
+      console.info(333);
+      const response: NextResponse = NextResponse.next();
+      response.headers.set(cookie.key, defaultLocale);
+      response.cookies.set(cookie.key, defaultLocale, {
+        ...cookie.options,
+      });
+      return response;
+    }
+
+    if (matchHome) {
+      console.info(444);
+      url.pathname = pathname.replace(matchHome, "");
+      const rewriteReponse = NextResponse.rewrite(url);
+      rewriteReponse.headers.set(cookie.key, matchHome);
+      rewriteReponse.cookies.set(cookie.key, matchHome, {
+        ...cookie.options,
+      });
+      return rewriteReponse;
+    }
   }
 };
 

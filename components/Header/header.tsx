@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import Button from "@mui/material/Button";
 
 import { useRouter } from "@/hooks/Router";
 import { domainConf } from "@/config/domain.conf";
@@ -22,12 +23,6 @@ const Header = () => {
     router.push("/login", undefined, { shallow: true });
   };
 
-  const handleOnDynamic = () => {
-    router.push({
-      pathname: "/checkout",
-    });
-  };
-
   return (
     <header>
       <div
@@ -49,11 +44,11 @@ const Header = () => {
           <Link href="/">
             <span>Home Page</span>
           </Link>
+          <Link href="/store">
+            <span>Store Page</span>
+          </Link>
           <Link href="/cart">
             <span>Cart Page</span>
-          </Link>
-          <Link href="/checkout">
-            <span>Checkout Page</span>
           </Link>
         </div>
         <div
@@ -81,8 +76,9 @@ const Header = () => {
             alignItems: "center",
           }}
         >
-          <button onClick={handleOnClick}>Jump Login</button>
-          <button onClick={handleOnDynamic}>Dynamic Checkout</button>
+          <Button variant="contained" onClick={handleOnClick}>
+            Jump Login
+          </Button>
           <span>Toggle Store:</span>
           {locales.length > 0 && (
             <select

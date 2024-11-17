@@ -17,6 +17,7 @@ const MyDocument = (props: MyDocumentProps) => {
     <Html lang="en">
       <Head>
         <meta name="charset" content="utf-8" />
+        <link rel="icon" href="/favicon.ico" />
         <DocumentHeadTags {...props} />
       </Head>
       <body>

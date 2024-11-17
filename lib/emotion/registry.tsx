@@ -5,7 +5,7 @@ import type { Theme as EmotionTheme } from "@emotion/react";
 import CssBaseline from "@mui/material/CssBaseline";
 import type { Theme } from "@mui/material/styles";
 import { ThemeProvider } from "@mui/material/styles";
-import { AppCacheProvider } from "@mui/material-nextjs/v14-pagesRouter";
+import { AppCacheProvider } from "@mui/material-nextjs/v15-pagesRouter";
 
 import EmotionThemeProvider from "./theme";
 

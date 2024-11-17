@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { Provider as StoreProvider } from "react-redux";
 import { isEmpty } from "lodash-es";
 import type { AppProps, AppContext } from "next/app";
@@ -22,29 +23,34 @@ interface PageProps extends AppProps {
 
 const App = ({ Component, pageProps, locale, reduxStore }: PageProps) => {
   return (
-    <StoreProvider store={reduxStore}>
-      <PathProvider basePath={domainConf.basePath} locale={locale}>
-        <EmotionRegistry
-          cacheOptions={cache}
-          muiTheme={muiTheme}
-          emotionTheme={emotionTheme}
-        >
-          <GlobalStyled />
-          <Header />
-          <main
-            style={{
-              maxWidth: "1280px",
-              minHeight: "80dvh",
-              margin: "0 auto",
-              padding: "20px",
-            }}
+    <>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
+      <StoreProvider store={reduxStore}>
+        <PathProvider basePath={domainConf.basePath} locale={locale}>
+          <EmotionRegistry
+            cacheOptions={cache}
+            muiTheme={muiTheme}
+            emotionTheme={emotionTheme}
           >
-            <Component {...pageProps} />
-          </main>
-          <Footer />
-        </EmotionRegistry>
-      </PathProvider>
-    </StoreProvider>
+            <GlobalStyled />
+            <Header />
+            <main
+              style={{
+                maxWidth: "1280px",
+                minHeight: "80dvh",
+                margin: "0 auto",
+                padding: "20px",
+              }}
+            >
+              <Component {...pageProps} />
+            </main>
+            <Footer />
+          </EmotionRegistry>
+        </PathProvider>
+      </StoreProvider>
+    </>
   );
 };
 
