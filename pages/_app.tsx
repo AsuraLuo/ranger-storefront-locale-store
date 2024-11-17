@@ -28,7 +28,11 @@ const App = ({ Component, pageProps, locale, reduxStore }: PageProps) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <StoreProvider store={reduxStore}>
-        <PathProvider basePath={domainConf.basePath} locale={locale}>
+        <PathProvider
+          basePath={domainConf.basePath}
+          locale={locale}
+          whiteList={domainConf.whiteList}
+        >
           <EmotionRegistry
             cacheOptions={cache}
             muiTheme={muiTheme}

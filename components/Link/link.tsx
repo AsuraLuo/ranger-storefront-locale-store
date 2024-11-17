@@ -10,13 +10,14 @@ const Link: React.FC<LinkProps & { children: React.ReactNode }> = ({
   prefetch = false,
   ...props
 }) => {
-  const { basePath, locale = "" } = usePathContext();
+  const { basePath, locale = "", whiteList = [] } = usePathContext();
   const prefix: string =
     locale === domainConf.i18n.defaultLocale ? "" : `/${locale}`;
+  const matchUrl = whiteList.find((path: string) => path === href);
 
   return (
     <NextLink
-      href={`${prefix}${basePath}${href}`}
+      href={matchUrl ? `${prefix}${href}` : `${prefix}${basePath}${href}`}
       prefetch={prefetch}
       {...props}
     >

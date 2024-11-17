@@ -10,6 +10,7 @@ type DomainConf = {
     key: string;
     options: CookieSerializeOptions;
   };
+  whiteList: string[];
 };
 
 export const domainConf: DomainConf = {
@@ -27,4 +28,5 @@ export const domainConf: DomainConf = {
       sameSite: "lax",
     },
   },
+  whiteList: ["/", "/store"],
 };

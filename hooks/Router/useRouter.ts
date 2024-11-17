@@ -18,7 +18,7 @@ export const useRouter = (): NextRouter => {
   const {
     i18n: { defaultLocale, locales },
   } = domainConf;
-  const { basePath = "", locale } = usePathContext();
+  const { basePath = "", locale, whiteList = [] } = usePathContext();
   const prefix: string = locale === defaultLocale ? "" : `/${locale}`;
   const isSlash: boolean = router.pathname === "/";
 
@@ -28,13 +28,22 @@ export const useRouter = (): NextRouter => {
     options?: TransitionOptions
   ): Promise<boolean> => {
     if (typeof url === "string") {
-      return router.push(`${prefix}${basePath}${url}`, as, options);
+      const matchUrl = whiteList.find((path: string) => path === url);
+      return router.push(
+        matchUrl ? `${prefix}${url}` : `${prefix}${basePath}${url}`,
+        as,
+        options
+      );
     }
 
+    const { pathname } = url;
+    const matchUrl = whiteList.find((path: string) => path === pathname);
     return router.push(
       {
         ...url,
-        pathname: `${prefix}${basePath}${url.pathname}`,
+        pathname: matchUrl
+          ? `${prefix}${pathname}`
+          : `${prefix}${basePath}${pathname}`,
       },
       as,
       options
@@ -47,13 +56,22 @@ export const useRouter = (): NextRouter => {
     options?: TransitionOptions
   ): Promise<boolean> => {
     if (typeof url === "string") {
-      return router.replace(`${prefix}${basePath}${url}`, as, options);
+      const matchUrl = whiteList.find((path: string) => path === url);
+      return router.replace(
+        matchUrl ? `${prefix}${url}` : `${prefix}${basePath}${url}`,
+        as,
+        options
+      );
     }
 
+    const { pathname } = url;
+    const matchUrl = whiteList.find((path: string) => path === pathname);
     return router.replace(
       {
         ...url,
-        pathname: `${prefix}${basePath}${url.pathname}`,
+        pathname: matchUrl
+          ? `${prefix}${pathname}`
+          : `${prefix}${basePath}${pathname}`,
       },
       as,
       options

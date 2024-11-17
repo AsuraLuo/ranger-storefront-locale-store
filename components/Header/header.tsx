@@ -7,7 +7,6 @@ import Link from "@/components/Link";
 
 const Header = () => {
   const {
-    basePath,
     i18n: { locales, defaultLocale },
   } = domainConf;
   const router = useRouter();
@@ -16,7 +15,7 @@ const Header = () => {
   const handleOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const prefix: string =
       e.target.value === defaultLocale ? "" : e.target.value;
-    window.location.href = `${window.location.origin}/${prefix}${basePath}`;
+    window.location.href = `${window.location.origin}/${prefix}`;
   };
 
   const handleOnClick = () => {
