@@ -8,6 +8,7 @@ export const middleware: NextMiddleware = (request: NextRequest) => {
     basePath,
     i18n: { locales, defaultLocale },
     cookie,
+    whiteList,
   } = domainConf;
   const { pathname } = request.nextUrl;
   const url = request.nextUrl.clone();
@@ -42,18 +43,25 @@ export const middleware: NextMiddleware = (request: NextRequest) => {
 
       if (!isStore) {
         const resolverParam = url.searchParams.get("resolver");
-        url.pathname = pathname.replace(matchStore, "");
+        const newPathname: string = pathname.replace(matchStore, "");
+        if (resolverParam) url.searchParams.delete("resolver");
 
-        if (resolverParam) {
-          url.searchParams.delete("resolver");
+        if (whiteList.includes(newPathname)) {
+          const response: NextResponse = NextResponse.next();
+          response.headers.set(cookie.key, store);
+          response.cookies.set(cookie.key, store, {
+            ...cookie.options,
+          });
+          return response;
+        } else {
+          url.pathname = newPathname;
+          const rewriteReponse = NextResponse.rewrite(url);
+          rewriteReponse.headers.set(cookie.key, store);
+          rewriteReponse.cookies.set(cookie.key, store, {
+            ...cookie.options,
+          });
+          return rewriteReponse;
         }
-
-        const rewriteReponse = NextResponse.rewrite(url);
-        rewriteReponse.headers.set(cookie.key, store);
-        rewriteReponse.cookies.set(cookie.key, store, {
-          ...cookie.options,
-        });
-        return rewriteReponse;
       }
     }
   }
@@ -83,6 +91,33 @@ export const middleware: NextMiddleware = (request: NextRequest) => {
         ...cookie.options,
       });
       return rewriteReponse;
+    }
+
+    // match website whiteList
+    const matchWebsite = locales.find((locale: string) => {
+      return pathname.startsWith(`/${locale}`);
+    });
+
+    if (matchWebsite) {
+      const newPathname: string = pathname.replace(`/${matchWebsite}`, "");
+      if (whiteList.includes(newPathname)) {
+        url.pathname = newPathname;
+        const rewriteReponse = NextResponse.rewrite(url);
+        rewriteReponse.headers.set(cookie.key, matchWebsite);
+        rewriteReponse.cookies.set(cookie.key, matchWebsite, {
+          ...cookie.options,
+        });
+        return rewriteReponse;
+      }
+    }
+
+    if (!pathname.startsWith(basePath) && !whiteList.includes(pathname)) {
+      url.pathname = url.pathname.replace(
+        "/",
+        isDefaultPage ? basePath : `${basePath}/`
+      );
+      const redirectResponse = NextResponse.redirect(url);
+      return redirectResponse;
     }
   }
 };

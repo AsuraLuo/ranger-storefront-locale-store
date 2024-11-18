@@ -28,5 +28,5 @@ export const domainConf: DomainConf = {
       sameSite: "lax",
     },
   },
-  whiteList: ["/", "/store"],
+  whiteList: ["/", "/store", "/support"],
 };

@@ -19,7 +19,7 @@ const Header = () => {
   };
 
   const handleOnClick = () => {
-    router.push("/login", undefined, { shallow: true });
+    router.push("/login", undefined, { shallow: false });
   };
 
   return (
@@ -60,8 +60,8 @@ const Header = () => {
           <Link href="/login">
             <span>Login Page</span>
           </Link>
-          <Link href="/register">
-            <span>Register Page</span>
+          <Link href="/support">
+            <span>Support Page</span>
           </Link>
           <Link href="/test-product?id=308467">
             <span>Product Page</span>
