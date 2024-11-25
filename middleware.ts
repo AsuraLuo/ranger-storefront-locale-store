@@ -23,7 +23,6 @@ export const middleware: NextMiddleware = (request: NextRequest) => {
   });
 
   // Match store rewrite store url
-  console.info("matchStore:", matchStore);
   if (matchStore) {
     const locale: string = matchStore.replace(basePath, "");
     const store: string = locale.replace("/", "") || defaultLocale;
@@ -66,11 +65,8 @@ export const middleware: NextMiddleware = (request: NextRequest) => {
   });
 
   // No match store redirect default store url
-  console.info(pathname, matchHome);
-
   if (!exsitStore) {
     if (isDefaultPage) {
-      console.info(333);
       const response: NextResponse = NextResponse.next();
       response.headers.set(cookie.key, defaultLocale);
       response.cookies.set(cookie.key, defaultLocale, {
@@ -80,7 +76,6 @@ export const middleware: NextMiddleware = (request: NextRequest) => {
     }
 
     if (matchHome) {
-      console.info(444);
       url.pathname = pathname.replace(matchHome, "");
       const rewriteReponse = NextResponse.rewrite(url);
       rewriteReponse.headers.set(cookie.key, matchHome);
